@@ -7,4 +7,5 @@ data class Hero(
     val primary_attr: String,
     val attack_type: String,
     val roles: List<String>
+    //ewqeqw
 )
