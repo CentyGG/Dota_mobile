@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
                 val heroes = api.getHeroes("1")
                 runOnUiThread{
                     binding.tv.text = heroes.name
+                    binding.tv.text = "1"
                 }
             }
         }
