@@ -8,12 +8,15 @@ import com.example.dotamobile.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
+    private val _heroes = MutableStateFlow<List<Hero>>(emptyList())
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -23,10 +26,10 @@ class MainActivity : AppCompatActivity() {
         val api = retrofit.create(OpenDotaApi::class.java)
         binding.button.setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch {
-                val heroes = api.getHeroes("1")
+                val heroes = api.getHeroes()
+                _heroes.value = heroes.toList()
                 runOnUiThread{
-                    binding.tv.text = heroes.name
-                    binding.tv.text = "1"
+                    binding.tv.text = _heroes.value[0].localized_name
                 }
             }
         }
