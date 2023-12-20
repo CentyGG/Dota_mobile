@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val api = retrofit.create(OpenDotaApi::class.java)
         binding.button.setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch {
-                val heroes = api.getHeroes()
+                val heroes = api.getHeroes("1")
                 runOnUiThread{
                     binding.tv.text = heroes.name
                 }
